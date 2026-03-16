@@ -671,7 +671,7 @@ export default async function handler(req, res) {
       html:    emailContent.html
     });
 
-    console.log(`[email] ✅ ${status} → ${studentEmail}`);
+    console.log(`[email] Email sent for status: ${status} → ${studentEmail}`);
     return res.status(200).json({ ok: true, message: `Email sent for status: ${status}` });
 
   } catch (err) {
