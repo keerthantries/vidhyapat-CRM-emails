@@ -1,14 +1,21 @@
+
 import nodemailer from 'nodemailer';
 
 // ─────────────────────────────────────────
-// BRAND CONFIG — edit here anytime
+// BRAND CONFIG
 // ─────────────────────────────────────────
 const BRAND = {
   name:    'Vidhyapat',
+  tagline: 'Empowering Careers Through Technology',
   website: 'https://vidhyapat.com',
   email:   'support@vidhyapat.com',
-  phone:   '+91 98765 43210',
+  phone:   '+91 7893026644',
   logo:    'https://res.cloudinary.com/doqbjnliq/image/upload/v1768821884/logo_oe6pjv.png',
+  bank: {
+    name:  'Vidhyapat Technologies Pvt Ltd',
+    acNo:  '81795315194',
+    ifsc:  'IDFB0080218'
+  },
   colors: {
     primary:     '#1976d2',
     primaryDark: '#1565c0',
@@ -37,196 +44,43 @@ const wrap = (content, accentColor = BRAND.colors.primary) => `
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"/>
 <style>
   * { box-sizing: border-box; margin: 0; padding: 0; }
-  body {
-    font-family: 'Segoe UI', Arial, sans-serif;
-    background: linear-gradient(135deg, #e3f2fd 0%, #ffffff 100%);
-    margin: 0; padding: 0;
-  }
+  body { font-family: 'Segoe UI', Arial, sans-serif; background: linear-gradient(135deg, #e3f2fd 0%, #ffffff 100%); margin: 0; padding: 0; }
   .email-outer { width: 100%; padding: 40px 16px; }
-  .email-card {
-    max-width: 600px;
-    margin: 0 auto;
-    background: #ffffff;
-    border-radius: 16px;
-    overflow: hidden;
-    box-shadow: 0 8px 32px rgba(25,118,210,0.12);
-  }
-  .email-header {
-    background: ${accentColor};
-    padding: 32px 40px 28px;
-    text-align: center;
-  }
-  .email-header img {
-    height: 52px;
-    display: block;
-    margin: 0 auto 16px;
-    filter: brightness(0) invert(1);
-  }
-  .email-header h1 {
-    color: #fff;
-    font-size: 22px;
-    font-weight: 700;
-    letter-spacing: 0.3px;
-    margin: 0;
-  }
-  .email-header p {
-    color: rgba(255,255,255,0.82);
-    font-size: 13px;
-    margin-top: 5px;
-  }
-  .email-body {
-    padding: 36px 40px;
-    color: ${BRAND.colors.text};
-    font-size: 15px;
-    line-height: 1.75;
-  }
+  .email-card { max-width: 600px; margin: 0 auto; background: #ffffff; border-radius: 16px; overflow: hidden; box-shadow: 0 8px 32px rgba(25,118,210,0.12); }
+  .email-header { background: ${accentColor}; padding: 32px 40px 28px; text-align: center; }
+  .email-header img { height: 52px; display: block; margin: 0 auto 16px; filter: brightness(0) invert(1); }
+  .email-header h1 { color: #fff; font-size: 22px; font-weight: 700; letter-spacing: 0.3px; margin: 0; }
+  .email-header p { color: rgba(255,255,255,0.82); font-size: 13px; margin-top: 5px; }
+  .email-body { padding: 36px 40px; color: ${BRAND.colors.text}; font-size: 15px; line-height: 1.75; }
   .greeting { font-size: 16px; margin-bottom: 14px; }
-  .info-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin: 22px 0;
-    font-size: 14px;
-    border-radius: 8px;
-    overflow: hidden;
-  }
+  .info-table { width: 100%; border-collapse: collapse; margin: 22px 0; font-size: 14px; border-radius: 8px; overflow: hidden; }
   .info-table tr:nth-child(odd) td { background: ${BRAND.colors.lightBg}; }
-  .info-table td {
-    padding: 11px 16px;
-    border: 1px solid ${BRAND.colors.border};
-    color: ${BRAND.colors.text};
-    vertical-align: middle;
-  }
-  .info-table td:first-child {
-    font-weight: 600;
-    width: 38%;
-    color: ${accentColor};
-  }
-  .highlight-box {
-    border-radius: 10px;
-    padding: 22px 24px;
-    margin: 22px 0;
-  }
-  .highlight-box h3 {
-    font-size: 15px;
-    font-weight: 600;
-    margin-bottom: 12px;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-  }
-  .credential-box {
-    background: #f0fdf4;
-    border: 1.5px solid #bbf7d0;
-    border-radius: 10px;
-    padding: 22px 24px;
-    margin: 22px 0;
-  }
-  .credential-box h3 {
-    color: ${BRAND.colors.success};
-    font-size: 15px;
-    font-weight: 600;
-    margin-bottom: 16px;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-  }
-  .cred-row {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    padding: 9px 0;
-    border-bottom: 1px solid #d1fae5;
-    font-size: 14px;
-  }
+  .info-table td { padding: 11px 16px; border: 1px solid ${BRAND.colors.border}; color: ${BRAND.colors.text}; vertical-align: middle; }
+  .info-table td:first-child { font-weight: 600; width: 38%; color: ${accentColor}; }
+  .highlight-box { border-radius: 10px; padding: 22px 24px; margin: 22px 0; }
+  .highlight-box h3 { font-size: 15px; font-weight: 600; margin-bottom: 12px; display: flex; align-items: center; gap: 8px; }
+  .credential-box { background: #f0fdf4; border: 1.5px solid #bbf7d0; border-radius: 10px; padding: 22px 24px; margin: 22px 0; }
+  .credential-box h3 { color: ${BRAND.colors.success}; font-size: 15px; font-weight: 600; margin-bottom: 16px; display: flex; align-items: center; gap: 8px; }
+  .cred-row { display: flex; align-items: center; gap: 12px; padding: 9px 0; border-bottom: 1px solid #d1fae5; font-size: 14px; }
   .cred-row:last-child { border-bottom: none; }
-  .cred-label {
-    font-weight: 600;
-    color: ${BRAND.colors.gray};
-    min-width: 130px;
-  }
-  .cred-value {
-    font-family: 'Courier New', monospace;
-    background: #ecfdf5;
-    padding: 4px 10px;
-    border-radius: 6px;
-    font-size: 13px;
-    color: #065f46;
-    border: 1px solid #a7f3d0;
-  }
-  .cred-link {
-    color: ${BRAND.colors.primary};
-    font-weight: 600;
-    text-decoration: none;
-    font-size: 14px;
-  }
-  .alert-box {
-    border-radius: 8px;
-    padding: 13px 16px;
-    margin: 14px 0;
-    font-size: 13px;
-    display: flex;
-    align-items: flex-start;
-    gap: 10px;
-    line-height: 1.6;
-  }
+  .cred-label { font-weight: 600; color: ${BRAND.colors.gray}; min-width: 140px; }
+  .cred-value { font-family: 'Courier New', monospace; background: #ecfdf5; padding: 4px 10px; border-radius: 6px; font-size: 13px; color: #065f46; border: 1px solid #a7f3d0; }
+  .cred-link { color: ${BRAND.colors.primary}; font-weight: 600; text-decoration: none; font-size: 14px; }
+  .alert-box { border-radius: 8px; padding: 13px 16px; margin: 14px 0; font-size: 13px; display: flex; align-items: flex-start; gap: 10px; line-height: 1.6; }
   .alert-box i { font-size: 16px; flex-shrink: 0; margin-top: 1px; }
-  .cta-btn {
-    display: inline-block;
-    padding: 13px 32px;
-    border-radius: 30px;
-    text-decoration: none;
-    font-size: 15px;
-    font-weight: 600;
-    color: #ffffff;
-    background: ${accentColor};
-    box-shadow: 0 4px 14px rgba(0,0,0,0.15);
-  }
+  .cta-btn { display: inline-block; padding: 13px 32px; border-radius: 30px; text-decoration: none; font-size: 15px; font-weight: 600; color: #ffffff; background: ${accentColor}; box-shadow: 0 4px 14px rgba(0,0,0,0.15); }
   .qr-wrap { text-align: center; margin: 18px 0; }
-  .qr-wrap img {
-    max-width: 170px;
-    border: 2px solid #e5e7eb;
-    border-radius: 12px;
-    padding: 10px;
-    background: #fff;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.07);
-  }
-  .qr-label {
-    font-size: 12px;
-    color: ${BRAND.colors.muted};
-    margin-top: 8px;
-  }
-  .course-pill {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    padding: 11px 16px;
-    margin: 8px 0;
-    background: ${BRAND.colors.lightBg};
-    border-left: 3px solid ${accentColor};
-    border-radius: 0 8px 8px 0;
-    font-size: 14px;
-    color: ${BRAND.colors.text};
-  }
+  .qr-wrap img { max-width: 170px; border: 2px solid #e5e7eb; border-radius: 12px; padding: 10px; background: #fff; box-shadow: 0 2px 8px rgba(0,0,0,0.07); }
+  .qr-label { font-size: 12px; color: ${BRAND.colors.muted}; margin-top: 8px; }
+  .course-pill { display: flex; align-items: center; gap: 10px; padding: 11px 16px; margin: 8px 0; background: ${BRAND.colors.lightBg}; border-left: 3px solid ${accentColor}; border-radius: 0 8px 8px 0; font-size: 14px; color: ${BRAND.colors.text}; }
   .course-pill i { color: ${accentColor}; font-size: 15px; }
   .divider { height: 1px; background: #e5e7eb; margin: 28px 0; }
   .signature { font-size: 14px; color: ${BRAND.colors.text}; }
-  .signature strong { display: block; font-size: 16px; color: ${accentColor}; margin-top: 4px; }
-  .email-footer {
-    background: #f9fafb;
-    border-top: 1px solid #e5e7eb;
-    padding: 22px 40px;
-    text-align: center;
-    font-size: 12px;
-    color: ${BRAND.colors.muted};
-  }
+  .signature strong { display: block; font-size: 15px; color: ${accentColor}; margin-top: 6px; }
+  .signature .org { font-size: 13px; color: ${BRAND.colors.muted}; }
+  .email-footer { background: #f9fafb; border-top: 1px solid #e5e7eb; padding: 22px 40px; text-align: center; font-size: 12px; color: ${BRAND.colors.muted}; }
   .email-footer a { color: ${accentColor}; text-decoration: none; }
-  .footer-links {
-    margin-top: 10px;
-    display: flex;
-    justify-content: center;
-    gap: 20px;
-    flex-wrap: wrap;
-  }
+  .footer-links { margin-top: 10px; display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; }
   .footer-links a { display: inline-flex; align-items: center; gap: 5px; font-size: 12px; }
 </style>
 </head>
@@ -236,11 +90,11 @@ const wrap = (content, accentColor = BRAND.colors.primary) => `
     <div class="email-header">
       <img src="${BRAND.logo}" alt="${BRAND.name}"/>
       <h1>${BRAND.name} Learning</h1>
-      <p>Empowering Careers Through Technology</p>
+      <p>${BRAND.tagline}</p>
     </div>
     <div class="email-body">${content}</div>
     <div class="email-footer">
-      <p>&copy; 2025 ${BRAND.name} Learning. All rights reserved.</p>
+      <p>&copy; ${new Date().getFullYear()} ${BRAND.name} Technologies Private Limited. All rights reserved.</p>
       <div class="footer-links">
         <a href="${BRAND.website}"><i class="bi bi-globe"></i> vidhyapat.com</a>
         <a href="mailto:${BRAND.email}"><i class="bi bi-envelope"></i> ${BRAND.email}</a>
@@ -259,108 +113,146 @@ function newLeadEmail({ name, course }) {
   return {
     subject: `Thank You for Reaching Out – ${BRAND.name}`,
     html: wrap(`
-      <p class="greeting">Dear <strong>${name}</strong>,</p>
-      <p>Thank you for contacting us! We have received your enquiry for <strong>${course}</strong> and we're delighted to hear from you.</p>
+      <p class="greeting">Hi <strong>${name}</strong>,</p>
+
+      <p>Thank you for reaching out to <strong>${BRAND.name}</strong>.</p>
+
+      <p style="margin-top:14px;">
+        We’re pleased to confirm that we’ve successfully received your inquiry.
+        Our team is currently reviewing your request, and one of our representatives
+        will get back to you within <strong>2 business days</strong> to assist you further.
+      </p>
 
       <div class="highlight-box" style="background:#f0f7ff;border:1.5px solid #bfdbfe;">
         <h3 style="color:${BRAND.colors.primary};">
-          <i class="bi bi-check-circle-fill" style="color:${BRAND.colors.primary}"></i>
-          Enquiry Received Successfully
+          <i class="bi bi-stars"></i>
+          Why Choose ${BRAND.name} ?
         </h3>
-        <p style="font-size:14px;color:${BRAND.colors.gray};margin:0;line-height:1.7;">
-          One of our course advisors will review your details and reach out to you shortly.
-          We typically respond within <strong>1 business day</strong>.
-        </p>
+
+        <div style="font-size:14px;color:${BRAND.colors.gray};line-height:2;">
+          <div>• Cutting-edge development and technology solutions</div>
+          <div>• Proven reliability and scalable systems</div>
+          <div>• Comprehensive IT and business services</div>
+          <div>• Dedicated support with quick response times</div>
+        </div>
       </div>
 
-      <table class="info-table">
-        <tr>
-          <td><i class="bi bi-mortarboard" style="margin-right:6px"></i>Course Interest</td>
-          <td>${course}</td>
-        </tr>
-        <tr>
-          <td><i class="bi bi-clock" style="margin-right:6px"></i>Response Time</td>
-          <td>Within 1 business day</td>
-        </tr>
-        <tr>
-          <td><i class="bi bi-headset" style="margin-right:6px"></i>Support</td>
-          <td><a href="mailto:${BRAND.email}" style="color:${BRAND.colors.primary}">${BRAND.email}</a></td>
-        </tr>
-      </table>
-
       <p style="font-size:14px;color:${BRAND.colors.gray};">
-        While you wait, feel free to explore our courses and resources on our website.
+        In the meantime, feel free to explore our services and learn more about how we can support your business goals by visiting our website.
       </p>
 
       <div style="text-align:center;margin:28px 0;">
         <a href="${BRAND.website}" class="cta-btn">
-          <i class="bi bi-grid" style="margin-right:6px"></i>Explore Our Programs
+          Visit Our Website
         </a>
       </div>
 
+      <p style="font-size:14px;color:${BRAND.colors.gray};">
+        If you have any additional information to share regarding your inquiry,
+        simply reply to this email and our team will be happy to assist you.
+      </p>
+
       <div class="divider"></div>
-      <div class="signature">Warm regards,<strong>Team ${BRAND.name}</strong></div>
+
+      <div class="signature">
+        Warm regards,<br/>
+        <strong>Vidhyapat Technologies Private Limited</strong>
+        <span class="org">
+          ${BRAND.website} <br/>
+          ${BRAND.phone}
+        </span>
+      </div>
     `, BRAND.colors.primary)
   };
 }
 
 // ─────────────────────────────────────────
-// 2. CONTACTED
+// 2. INTERESTED
 // ─────────────────────────────────────────
-function contactedEmail({ name, course }) {
+function interestedEmail({ name, course, price, qrCodeUrl }) {
   return {
-    subject: `${BRAND.name} – Our Advisor Will Connect With You Soon`,
+    subject: `${BRAND.name} – Course Enrollment Details for ${course}`,
     html: wrap(`
       <p class="greeting">Dear <strong>${name}</strong>,</p>
-      <p>Thank you for your interest in <strong>${course}</strong>. Our course advisor has noted your details and will be in touch with you very soon.</p>
 
-      <div class="highlight-box" style="background:#f5f3ff;border:1.5px solid #ddd6fe;">
-        <h3 style="color:${BRAND.colors.purple};">
-          <i class="bi bi-telephone-outbound-fill" style="color:${BRAND.colors.purple}"></i>
-          Expect a Call From Our Team
-        </h3>
-        <p style="font-size:14px;color:${BRAND.colors.gray};margin:0;line-height:1.7;">
-          Our advisor will call or email you to walk you through the course,
-          answer your questions, and help you choose the right learning plan.
-        </p>
-      </div>
+      <p>Thank you for showing interest in <strong>${course}</strong> at <strong>${BRAND.name}</strong>.</p>
+
+      <p style="margin-top:12px;">Please find the course details below:</p>
 
       <table class="info-table">
         <tr>
-          <td><i class="bi bi-mortarboard" style="margin-right:6px"></i>Course</td>
-          <td>${course}</td>
+          <td>Course Name</td>
+          <td><strong>${course}</strong></td>
         </tr>
         <tr>
-          <td><i class="bi bi-person-badge" style="margin-right:6px"></i>Next Step</td>
-          <td>Advisor call / email</td>
+          <td>Course Duration</td>
+          <td>As per batch schedule</td>
         </tr>
         <tr>
-          <td><i class="bi bi-clock" style="margin-right:6px"></i>Timeline</td>
-          <td>Within 1 business day</td>
+          <td>Course Fee</td>
+          <td><strong>${price || 'Contact us for pricing'}</strong></td>
         </tr>
       </table>
 
-      <div style="text-align:center;margin:28px 0;">
-        <a href="${BRAND.website}" class="cta-btn" style="background:${BRAND.colors.purple};">
-          <i class="bi bi-laptop" style="margin-right:6px"></i>Browse Course Details
-        </a>
+      <p style="margin-top:14px;">
+        To confirm your enrollment, kindly complete the payment using the QR code provided below.
+      </p>
+
+      <p><strong>Payment QR Code:</strong></p>
+
+      ${qrCodeUrl
+        ? `<div class="qr-wrap">
+             <img src="${qrCodeUrl}" alt="Payment QR Code"/>
+           </div>`
+        : `<p style="color:${BRAND.colors.muted};">QR code will be shared shortly.</p>`
+      }
+
+      <div class="highlight-box" style="background:#f9fafb;border:1px solid #e5e7eb;">
+        <p><strong>Bank Details :</strong></p>
+        <p style="line-height:1.8;">
+          A/C Name : ${BRAND.bank.name}<br/>
+          A/C No : ${BRAND.bank.acNo}<br/>
+          IFSC Code : ${BRAND.bank.ifsc}
+        </p>
       </div>
 
+      <p style="margin-top:14px;"><strong>Payment Instructions:</strong></p>
+      <p>
+        After completing the payment, please reply to this email with the transaction screenshot or payment confirmation.
+      </p>
+
+      <p style="margin-top:14px;">
+        If you have any questions or need assistance, please feel free to contact us.
+      </p>
+
+      <p>
+        <strong>Support Contact:</strong><br/>
+        ${BRAND.email}<br/>
+        ${BRAND.phone}
+      </p>
+
+      <p style="margin-top:14px;">
+        We look forward to welcoming you to ${BRAND.name} and supporting your learning journey.
+      </p>
+
       <div class="divider"></div>
-      <div class="signature">Warm regards,<strong>Team ${BRAND.name}</strong></div>
-    `, BRAND.colors.purple)
+
+      <div class="signature">
+        Regards,<br/>
+        <strong>Team ${BRAND.name}</strong>
+      </div>
+    `, BRAND.colors.warning)
   };
 }
-
 // ─────────────────────────────────────────
-// 3. INTERESTED
+// 3. PAYMENT PENDING
 // ─────────────────────────────────────────
-function interestedEmail({ name, course, price, qrCodeUrl, curriculumLink }) {
+function paymentPendingEmail({ name, course, price, qrCodeUrl }) {
   return {
-    subject: `${BRAND.name} – Complete Your Enrollment for ${course}`,
+    subject: `${BRAND.name} – Your Payment for ${course} is Pending`,
     html: wrap(`
       <p class="greeting">Dear <strong>${name}</strong>,</p>
-      <p>Great news — we're thrilled that you're interested in <strong>${course}</strong>! Here are all the details you need to secure your seat.</p>
+      <p>We noticed that your payment for the <strong>${course}</strong> course is still pending. Your seat is currently reserved — please complete the payment to confirm your spot.</p>
 
       <table class="info-table">
         <tr>
@@ -368,125 +260,76 @@ function interestedEmail({ name, course, price, qrCodeUrl, curriculumLink }) {
           <td><strong>${course}</strong></td>
         </tr>
         <tr>
-          <td><i class="bi bi-currency-rupee" style="margin-right:6px"></i>Course Fee</td>
-          <td><strong>${price || 'Contact us for pricing'}</strong></td>
+          <td><i class="bi bi-currency-rupee" style="margin-right:6px"></i>Amount</td>
+          <td><strong>${price || 'Contact us for details'}</strong></td>
         </tr>
-        ${curriculumLink ? `
         <tr>
-          <td><i class="bi bi-file-earmark-text" style="margin-right:6px"></i>Curriculum</td>
-          <td><a href="${curriculumLink}" style="color:${BRAND.colors.primary};font-weight:600;">View Full Curriculum <i class="bi bi-box-arrow-up-right" style="font-size:11px"></i></a></td>
-        </tr>` : ''}
+          <td><i class="bi bi-credit-card" style="margin-right:6px"></i>Payment Details</td>
+          <td>QR code or bank transfer</td>
+        </tr>
       </table>
 
       <div class="highlight-box" style="background:#fff7ed;border:1.5px solid #fed7aa;">
-        <h3 style="color:${BRAND.colors.warning};">
-          <i class="bi bi-qr-code-scan" style="color:${BRAND.colors.warning}"></i>
-          Complete Your Payment
-        </h3>
-        <p style="font-size:14px;color:${BRAND.colors.gray};margin-bottom:16px;line-height:1.7;">
-          Scan the QR code below using any UPI app to complete your payment and confirm your seat.
-        </p>
-        ${qrCodeUrl
-          ? `<div class="qr-wrap">
-               <img src="${qrCodeUrl}" alt="Payment QR Code"/>
-               <p class="qr-label"><i class="bi bi-phone" style="margin-right:4px"></i>Scan with any UPI app to pay</p>
-             </div>`
-          : `<p style="font-size:14px;color:${BRAND.colors.muted};text-align:center;padding:16px;background:#f9fafb;border-radius:8px;">
-               <i class="bi bi-info-circle" style="margin-right:6px"></i>Payment QR will be shared by our team shortly.
-             </p>`
-        }
-        <div class="alert-box" style="background:#fef3c7;border:1px solid #fde68a;">
-          <i class="bi bi-exclamation-circle-fill" style="color:#92400e;"></i>
-          <span style="color:#92400e;">After payment, please reply to this email with your <strong>transaction screenshot</strong> for quick verification.</span>
-        </div>
-      </div>
-
-      <div class="alert-box" style="background:#f0f7ff;border:1px solid #bfdbfe;">
-        <i class="bi bi-headset" style="color:${BRAND.colors.primary}"></i>
-        <span style="color:${BRAND.colors.gray};">
-          Need help? Contact us at <a href="mailto:${BRAND.email}" style="color:${BRAND.colors.primary};font-weight:600;">${BRAND.email}</a> or call <strong>${BRAND.phone}</strong>
-        </span>
-      </div>
-
-      <div class="divider"></div>
-      <div class="signature">Warm regards,<strong>Team ${BRAND.name}</strong></div>
-    `, BRAND.colors.warning)
-  };
-}
-
-// ─────────────────────────────────────────
-// 4. PAYMENT PENDING
-// ─────────────────────────────────────────
-function paymentPendingEmail({ name, course, price, qrCodeUrl }) {
-  return {
-    subject: `${BRAND.name} – Your Payment for ${course} is Pending`,
-    html: wrap(`
-      <p class="greeting">Dear <strong>${name}</strong>,</p>
-      <p>We noticed your payment for <strong>${course}</strong> is still pending. Your seat is reserved — complete the payment to lock in your spot!</p>
-
-      <div class="highlight-box" style="background:#fff7ed;border:1.5px solid #fed7aa;">
         <h3 style="color:${BRAND.colors.orange};">
-          <i class="bi bi-hourglass-split" style="color:${BRAND.colors.orange}"></i>
-          Payment Pending
+          <i class="bi bi-qr-code-scan" style="color:${BRAND.colors.orange}"></i>
+          Payment QR Code
         </h3>
-        <table class="info-table" style="margin-bottom:16px;">
-          <tr>
-            <td><i class="bi bi-mortarboard" style="margin-right:6px"></i>Course</td>
-            <td><strong>${course}</strong></td>
-          </tr>
-          <tr>
-            <td><i class="bi bi-currency-rupee" style="margin-right:6px"></i>Amount</td>
-            <td><strong>${price || 'Contact us for details'}</strong></td>
-          </tr>
-        </table>
         ${qrCodeUrl
           ? `<div class="qr-wrap">
-               <img src="${qrCodeUrl}" alt="Payment QR Code"/>
+               <img src="${qrCodeUrl}" alt="Vidhyapat Payment QR Code"/>
                <p class="qr-label"><i class="bi bi-phone" style="margin-right:4px"></i>Scan to pay instantly</p>
              </div>`
           : `<p style="font-size:14px;color:${BRAND.colors.muted};text-align:center;padding:16px;background:#f9fafb;border-radius:8px;">
-               <i class="bi bi-info-circle" style="margin-right:6px"></i>Contact us for payment details.
+               <i class="bi bi-info-circle" style="margin-right:6px"></i>Contact ${BRAND.name} for payment QR details.
              </p>`
         }
+
+        <div style="font-size:13px;color:${BRAND.colors.text};line-height:2.2;margin-top:16px;padding:14px;background:#f9fafb;border-radius:8px;">
+          <div><strong>A/C Name :</strong> ${BRAND.bank.name}</div>
+          <div><strong>A/C No :</strong> ${BRAND.bank.acNo}</div>
+          <div><strong>IFSC Code :</strong> ${BRAND.bank.ifsc}</div>
+        </div>
       </div>
 
       <div class="alert-box" style="background:#f0fdf4;border:1px solid #bbf7d0;">
         <i class="bi bi-check-circle-fill" style="color:${BRAND.colors.success}"></i>
-        <span style="color:#065f46;">
-          Once payment is done, reply with your <strong>transaction screenshot</strong> and we'll activate your account within <strong>24 hours</strong>.
-        </span>
+        <span style="color:#065f46;">Once the payment is completed, please reply with your <strong>transaction screenshot</strong>, and we will activate your account within <strong>24 hours</strong>.</span>
       </div>
 
       <div class="alert-box" style="background:#f0f7ff;border:1px solid #bfdbfe;">
         <i class="bi bi-headset" style="color:${BRAND.colors.primary}"></i>
         <span style="color:${BRAND.colors.gray};">
-          Questions? Reach us at <a href="mailto:${BRAND.email}" style="color:${BRAND.colors.primary};font-weight:600;">${BRAND.email}</a>
+          For any questions, feel free to contact us at <a href="mailto:${BRAND.email}" style="color:${BRAND.colors.primary};font-weight:600;">${BRAND.email}</a>
         </span>
       </div>
 
       <div class="divider"></div>
-      <div class="signature">Warm regards,<strong>Team ${BRAND.name}</strong></div>
+      <div class="signature">
+        Warm regards,
+        <strong>Team ${BRAND.name}</strong>
+      </div>
     `, BRAND.colors.orange)
   };
 }
 
 // ─────────────────────────────────────────
-// 5. ENROLLED
+// 4. ENROLLED (After Enrollment)
 // ─────────────────────────────────────────
 function enrolledEmail({ name, course, lmsUrl, username, tempPassword, startDate }) {
   return {
-    subject: `Welcome to ${BRAND.name} – Your LMS Access for ${course} is Ready`,
+    subject: `Congratulations! Your Enrollment for ${course} is Confirmed – ${BRAND.name}`,
     html: wrap(`
       <p class="greeting">Dear <strong>${name}</strong>,</p>
-      <p>Congratulations! Your enrollment for <strong>${course}</strong> is confirmed. We're excited to have you on board — your learning portal is ready and waiting.</p>
+      <p style="font-size:18px;font-weight:700;color:${BRAND.colors.success};margin:10px 0;">Congratulations! 🎉</p>
+      <p>Your enrollment for <strong>${course}</strong> has been successfully confirmed. You can now access the <strong>${BRAND.name} Learning Management System (LMS)</strong> using the details below.</p>
 
       <div class="credential-box">
         <h3>
           <i class="bi bi-shield-lock-fill"></i>
-          Your Login Credentials
+          Your LMS Login Details
         </h3>
         <div class="cred-row">
-          <span class="cred-label"><i class="bi bi-link-45deg" style="margin-right:4px"></i>LMS Portal</span>
+          <span class="cred-label"><i class="bi bi-link-45deg" style="margin-right:4px"></i>LMS Login URL</span>
           <a href="${lmsUrl || 'https://lms.vidhyapat.com'}" class="cred-link">
             ${lmsUrl || 'https://lms.vidhyapat.com'} <i class="bi bi-box-arrow-up-right" style="font-size:11px;margin-left:3px"></i>
           </a>
@@ -496,106 +339,81 @@ function enrolledEmail({ name, course, lmsUrl, username, tempPassword, startDate
           <span class="cred-value">${username}</span>
         </div>
         <div class="cred-row">
-          <span class="cred-label"><i class="bi bi-key" style="margin-right:4px"></i>Password</span>
+          <span class="cred-label"><i class="bi bi-key" style="margin-right:4px"></i>Temporary Password</span>
           <span class="cred-value">${tempPassword || 'Vidhyapat@123'}</span>
         </div>
         ${startDate ? `
         <div class="cred-row">
-          <span class="cred-label"><i class="bi bi-calendar-event" style="margin-right:4px"></i>Course Starts</span>
+          <span class="cred-label"><i class="bi bi-calendar-event" style="margin-right:4px"></i>Course Start Date</span>
           <span style="font-size:14px;color:${BRAND.colors.text};">${startDate}</span>
         </div>` : ''}
       </div>
 
       <div class="alert-box" style="background:#fffbeb;border:1px solid #fde68a;">
         <i class="bi bi-exclamation-triangle-fill" style="color:#92400e;"></i>
-        <span style="color:#92400e;"><strong>Important:</strong> Please change your password after first login to keep your account secure.</span>
+        <span style="color:#92400e;">For security purposes, please <strong>change your password</strong> after your first login.</span>
       </div>
 
       <div style="text-align:center;margin:28px 0;">
         <a href="${lmsUrl || 'https://lms.vidhyapat.com'}" class="cta-btn" style="background:${BRAND.colors.success};">
-          <i class="bi bi-play-circle" style="margin-right:6px"></i>Start Learning Now
+          <i class="bi bi-play-circle" style="margin-right:6px"></i>Access ${BRAND.name} LMS
         </a>
       </div>
 
       <div class="alert-box" style="background:#f0f7ff;border:1px solid #bfdbfe;">
         <i class="bi bi-headset" style="color:${BRAND.colors.primary}"></i>
         <span style="color:${BRAND.colors.gray};">
-          Need help getting started? We're here at <a href="mailto:${BRAND.email}" style="color:${BRAND.colors.primary};font-weight:600;">${BRAND.email}</a>
+          If you need any assistance, feel free to reach out to us at <a href="mailto:${BRAND.email}" style="color:${BRAND.colors.primary};font-weight:600;">${BRAND.email}</a> or <strong>${BRAND.phone}</strong>
         </span>
       </div>
 
+      <p style="font-size:14px;color:${BRAND.colors.gray};margin-top:16px;">We are excited to have you with us and wish you a great learning experience with <strong>${BRAND.name}</strong>.</p>
+
       <div class="divider"></div>
-      <p style="font-size:14px;color:${BRAND.colors.gray};">Welcome aboard! We're thrilled to be part of your learning journey.</p>
-      <div class="signature" style="margin-top:16px;">Warm regards,<strong>Team ${BRAND.name}</strong></div>
+      <div class="signature">
+        Regards,
+        <strong>Team ${BRAND.name}</strong>
+      </div>
     `, BRAND.colors.success)
   };
 }
 
 // ─────────────────────────────────────────
-// 6. NOT INTERESTED
+// 5. NOT INTERESTED
 // ─────────────────────────────────────────
 function notInterestedEmail({ name }) {
   return {
     subject: `Thank You for Your Interest in ${BRAND.name}`,
     html: wrap(`
       <p class="greeting">Dear <strong>${name}</strong>,</p>
-      <p>Thank you for taking the time to explore ${BRAND.name}. We completely understand that the timing may not be right — and that's perfectly okay.</p>
-
-      <p style="margin-top:16px;font-size:14px;color:${BRAND.colors.gray};">
-        Whenever you're ready to take the next step in your career, we're here with industry-ready programs in:
+      <p>Thank you for your interest in <strong>${BRAND.name}</strong>.</p>
+      <p style="margin-top:14px;font-size:14px;color:${BRAND.colors.gray};">
+        We understand that you may not be enrolling at this time. If you plan to pursue learning in the future, we would be happy to assist you.
       </p>
 
-      <div style="margin:18px 0;">
+      <div style="margin:20px 0;">
         <div class="course-pill"><i class="bi bi-robot"></i> AI / Machine Learning</div>
         <div class="course-pill"><i class="bi bi-shield-check"></i> Cyber Security</div>
+        <div class="course-pill"><i class="bi bi-bar-chart-line"></i> Data Science</div>
         <div class="course-pill"><i class="bi bi-code-slash"></i> Full Stack Development</div>
-        <div class="course-pill"><i class="bi bi-phone"></i> Android &amp; iOS Development</div>
-        <div class="course-pill"><i class="bi bi-bug"></i> Software Testing</div>
       </div>
 
-      <div style="text-align:center;margin:28px 0;">
+      <p style="font-size:14px;color:${BRAND.colors.gray};">You can explore our programs anytime at:</p>
+
+      <div style="text-align:center;margin:24px 0;">
         <a href="${BRAND.website}" class="cta-btn" style="background:${BRAND.colors.gray};">
-          <i class="bi bi-grid" style="margin-right:6px"></i>Explore All Programs
+          <i class="bi bi-grid" style="margin-right:6px"></i>${BRAND.website}
         </a>
       </div>
 
-      <p style="font-size:13px;color:${BRAND.colors.muted};text-align:center;">
-        We look forward to supporting your learning journey someday.
-      </p>
+      <p style="font-size:14px;color:${BRAND.colors.gray};text-align:center;">We look forward to supporting your learning journey.</p>
 
       <div class="divider"></div>
-      <div class="signature">Warm regards,<strong>Team ${BRAND.name}</strong></div>
+      <div class="signature">
+        Regards,
+        <strong>Team ${BRAND.name}</strong>
+      </div>
     `, BRAND.colors.gray)
-  };
-}
-
-// ─────────────────────────────────────────
-// 7. CLOSED
-// ─────────────────────────────────────────
-function closedEmail({ name }) {
-  return {
-    subject: `${BRAND.name} – We Hope to Connect Again`,
-    html: wrap(`
-      <p class="greeting">Dear <strong>${name}</strong>,</p>
-      <p>We're closing your enquiry for now, but we wanted to thank you sincerely for considering ${BRAND.name} as your learning partner.</p>
-
-      <div class="highlight-box" style="background:#f9fafb;border:1.5px solid #e5e7eb;text-align:center;">
-        <i class="bi bi-stars" style="font-size:38px;color:${BRAND.colors.primary};display:block;margin-bottom:14px;"></i>
-        <p style="font-size:15px;color:${BRAND.colors.gray};line-height:1.75;margin:0;">
-          If you ever decide to upskill in <strong>AI/ML, Cyber Security, Full Stack Development</strong>
-          or any of our other programs — we'll be right here, ready to help you grow.
-        </p>
-      </div>
-
-      <div style="text-align:center;margin:28px 0;">
-        <a href="${BRAND.website}" class="cta-btn">
-          <i class="bi bi-arrow-return-right" style="margin-right:6px"></i>Visit ${BRAND.name}
-        </a>
-      </div>
-
-      <div class="divider"></div>
-      <div class="signature">Warm regards,<strong>Team ${BRAND.name}</strong></div>
-    `, BRAND.colors.primary)
   };
 }
 
@@ -624,13 +442,20 @@ export default async function handler(req, res) {
     return res.status(500).json({ error: 'Email configuration error on server' });
   }
 
+  // Only these 5 statuses trigger emails — Contact and Closed do NOT
+  const ACTIVE_STATUSES = ['New Lead','Contact', 'Interested', 'Payment Pending', 'Enrolled', 'Not Interested'];
+  if (!ACTIVE_STATUSES.includes(status)) {
+    console.log(`[${BRAND.name}] Skipped email for status: ${status}`);
+    return res.status(200).json({ ok: true, skipped: true, reason: `No email configured for status: ${status}` });
+  }
+
   let emailContent;
   switch (status) {
     case 'New Lead':
       emailContent = newLeadEmail({ name: studentName, course });
       break;
-    case 'Contacted':
-      emailContent = contactedEmail({ name: studentName, course });
+    case 'Contact':
+      emailContent = newLeadEmail({ name: studentName, course });
       break;
     case 'Interested':
       emailContent = interestedEmail({ name: studentName, course, price, qrCodeUrl, curriculumLink });
@@ -648,11 +473,6 @@ export default async function handler(req, res) {
     case 'Not Interested':
       emailContent = notInterestedEmail({ name: studentName });
       break;
-    case 'Closed':
-      emailContent = closedEmail({ name: studentName });
-      break;
-    default:
-      return res.status(200).json({ ok: true, skipped: true, reason: `No template for status: ${status}` });
   }
 
   try {
@@ -671,11 +491,11 @@ export default async function handler(req, res) {
       html:    emailContent.html
     });
 
-    console.log(`[email] Email sent for status: ${status} → ${studentEmail}`);
+    console.log(`[${BRAND.name}] Email sent → ${status} → ${studentEmail}`);
     return res.status(200).json({ ok: true, message: `Email sent for status: ${status}` });
 
   } catch (err) {
-    console.error('[email] SMTP error:', err);
+    console.error(`[${BRAND.name}] SMTP error:`, err);
     return res.status(500).json({ ok: false, error: err.message });
   }
 }
