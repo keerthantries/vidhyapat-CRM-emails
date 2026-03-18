@@ -105,7 +105,18 @@ const wrap = (content, accentColor = BRAND.colors.primary) => `
 </div>
 </body>
 </html>`;
-
+const getSignature = () => `
+  <div class="divider"></div>
+  <div class="signature">
+    Regards,<br/>
+    <strong>Team ${BRAND.name}</strong>
+    <div class="org" style="margin-top:6px;">
+      ${BRAND.website}<br/>
+      ${BRAND.email}<br/>
+      ${BRAND.phone}
+    </div>
+  </div>
+`;
 // ─────────────────────────────────────────
 // 1. NEW LEAD
 // ─────────────────────────────────────────
@@ -152,16 +163,7 @@ function newLeadEmail({ name, course }) {
         simply reply to this email and our team will be happy to assist you.
       </p>
 
-      <div class="divider"></div>
-
-      <div class="signature">
-        Warm regards,<br/>
-        <strong>Vidhyapat Technologies Private Limited</strong>
-        <span class="org">
-          ${BRAND.website} <br/>
-          ${BRAND.phone}
-        </span>
-      </div>
+      ${getSignature()}
     `, BRAND.colors.primary)
   };
 }
@@ -169,7 +171,10 @@ function newLeadEmail({ name, course }) {
 // ─────────────────────────────────────────
 // 2. INTERESTED
 // ─────────────────────────────────────────
-function interestedEmail({ name, course, price, qrCodeUrl }) {
+// ─────────────────────────────────────────
+// 2. INTERESTED (Modified to use Dynamic Bank Settings)
+// ─────────────────────────────────────────
+function interestedEmail({ name, course, price, qrCodeUrl, bankName, bankAcNo, bankIfsc }) {
   return {
     subject: `${BRAND.name} – Course Enrollment Details for ${course}`,
     html: wrap(`
@@ -200,19 +205,25 @@ function interestedEmail({ name, course, price, qrCodeUrl }) {
 
       <p><strong>Payment QR Code:</strong></p>
 
-      ${qrCodeUrl
-        ? `<div class="qr-wrap">
-             <img src="${qrCodeUrl}" alt="Payment QR Code"/>
-           </div>`
-        : `<p style="color:${BRAND.colors.muted};">QR code will be shared shortly.</p>`
-      }
+     ${qrCodeUrl
+  ? `<table width="100%" border="0" cellspacing="0" cellpadding="0" style="margin: 18px 0;">
+       <tr>
+         <td align="center">
+           <div style="border: 2px solid #e5e7eb; border-radius: 12px; padding: 10px; display: inline-block; background: #ffffff;">
+             <img src="${qrCodeUrl}" alt="Payment QR Code" width="180" style="display: block; border: 0;" />
+           </div>
+         </td>
+       </tr>
+     </table>`
+  : `<p style="color:${BRAND.colors.muted};text-align:center;">QR code will be shared shortly.</p>`
+}
 
       <div class="highlight-box" style="background:#f9fafb;border:1px solid #e5e7eb;">
         <p><strong>Bank Details :</strong></p>
         <p style="line-height:1.8;">
-          A/C Name : ${BRAND.bank.name}<br/>
-          A/C No : ${BRAND.bank.acNo}<br/>
-          IFSC Code : ${BRAND.bank.ifsc}
+          A/C Name : ${bankName}<br/>
+          A/C No : ${bankAcNo}<br/>
+          IFSC Code : ${bankIfsc}
         </p>
       </div>
 
@@ -235,19 +246,18 @@ function interestedEmail({ name, course, price, qrCodeUrl }) {
         We look forward to welcoming you to ${BRAND.name} and supporting your learning journey.
       </p>
 
-      <div class="divider"></div>
-
-      <div class="signature">
-        Regards,<br/>
-        <strong>Team ${BRAND.name}</strong>
-      </div>
+      ${getSignature()}
     `, BRAND.colors.warning)
   };
 }
+
 // ─────────────────────────────────────────
 // 3. PAYMENT PENDING
 // ─────────────────────────────────────────
-function paymentPendingEmail({ name, course, price, qrCodeUrl }) {
+// ─────────────────────────────────────────
+// 3. PAYMENT PENDING (Modified to use Dynamic Bank Settings)
+// ─────────────────────────────────────────
+function paymentPendingEmail({ name, course, price, qrCodeUrl, bankName, bankAcNo, bankIfsc }) {
   return {
     subject: `${BRAND.name} – Your Payment for ${course} is Pending`,
     html: wrap(`
@@ -275,19 +285,23 @@ function paymentPendingEmail({ name, course, price, qrCodeUrl }) {
           Payment QR Code
         </h3>
         ${qrCodeUrl
-          ? `<div class="qr-wrap">
-               <img src="${qrCodeUrl}" alt="Vidhyapat Payment QR Code"/>
-               <p class="qr-label"><i class="bi bi-phone" style="margin-right:4px"></i>Scan to pay instantly</p>
-             </div>`
-          : `<p style="font-size:14px;color:${BRAND.colors.muted};text-align:center;padding:16px;background:#f9fafb;border-radius:8px;">
-               <i class="bi bi-info-circle" style="margin-right:6px"></i>Contact ${BRAND.name} for payment QR details.
-             </p>`
-        }
+  ? `<table width="100%" border="0" cellspacing="0" cellpadding="0">
+       <tr>
+         <td align="center">
+           <div style="border: 2px solid #e5e7eb; border-radius: 12px; padding: 10px; display: inline-block; background: #ffffff;">
+             <img src="${qrCodeUrl}" alt="Payment QR Code" width="180" style="display: block; border: 0;" />
+           </div>
+           <p class="qr-label" style="margin-top: 8px;">Scan to pay instantly</p>
+         </td>
+       </tr>
+     </table>`
+  : `<p style="text-align:center;color:${BRAND.colors.muted};">QR not available</p>`
+}
 
         <div style="font-size:13px;color:${BRAND.colors.text};line-height:2.2;margin-top:16px;padding:14px;background:#f9fafb;border-radius:8px;">
-          <div><strong>A/C Name :</strong> ${BRAND.bank.name}</div>
-          <div><strong>A/C No :</strong> ${BRAND.bank.acNo}</div>
-          <div><strong>IFSC Code :</strong> ${BRAND.bank.ifsc}</div>
+          <div><strong>A/C Name :</strong> ${bankName}</div>
+          <div><strong>A/C No :</strong> ${bankAcNo}</div>
+          <div><strong>IFSC Code :</strong> ${bankIfsc}</div>
         </div>
       </div>
 
@@ -303,11 +317,7 @@ function paymentPendingEmail({ name, course, price, qrCodeUrl }) {
         </span>
       </div>
 
-      <div class="divider"></div>
-      <div class="signature">
-        Warm regards,
-        <strong>Team ${BRAND.name}</strong>
-      </div>
+      ${getSignature()}
     `, BRAND.colors.orange)
   };
 }
@@ -369,11 +379,7 @@ function enrolledEmail({ name, course, lmsUrl, username, tempPassword, startDate
 
       <p style="font-size:14px;color:${BRAND.colors.gray};margin-top:16px;">We are excited to have you with us and wish you a great learning experience with <strong>${BRAND.name}</strong>.</p>
 
-      <div class="divider"></div>
-      <div class="signature">
-        Regards,
-        <strong>Team ${BRAND.name}</strong>
-      </div>
+      ${getSignature()}
     `, BRAND.colors.success)
   };
 }
@@ -408,17 +414,16 @@ function notInterestedEmail({ name }) {
 
       <p style="font-size:14px;color:${BRAND.colors.gray};text-align:center;">We look forward to supporting your learning journey.</p>
 
-      <div class="divider"></div>
-      <div class="signature">
-        Regards,
-        <strong>Team ${BRAND.name}</strong>
-      </div>
+     ${getSignature()}
     `, BRAND.colors.gray)
   };
 }
 
 // ─────────────────────────────────────────
 // MAIN HANDLER
+// ─────────────────────────────────────────
+// ─────────────────────────────────────────
+// MAIN HANDLER (Modified for Dynamic Bank Settings)
 // ─────────────────────────────────────────
 export default async function handler(req, res) {
   res.setHeader('Access-Control-Allow-Origin', '*');
@@ -431,7 +436,9 @@ export default async function handler(req, res) {
   const {
     status, studentEmail, studentName, course,
     price, qrCodeUrl, curriculumLink,
-    lmsUrl, username, tempPassword, startDate
+    lmsUrl, username, tempPassword, startDate,
+    // Add bank details here to extract them from the request
+    bankName, bankAcNo, bankIfsc 
   } = req.body || {};
 
   if (!status || !studentEmail || !studentName) {
@@ -442,8 +449,7 @@ export default async function handler(req, res) {
     return res.status(500).json({ error: 'Email configuration error on server' });
   }
 
-  // Only these 5 statuses trigger emails — Contact and Closed do NOT
-  const ACTIVE_STATUSES = ['New Lead','Contact', 'Interested', 'Payment Pending', 'Enrolled', 'Not Interested'];
+  const ACTIVE_STATUSES = ['New Lead', 'Contact', 'Interested', 'Payment Pending', 'Enrolled', 'Not Interested'];
   if (!ACTIVE_STATUSES.includes(status)) {
     console.log(`[${BRAND.name}] Skipped email for status: ${status}`);
     return res.status(200).json({ ok: true, skipped: true, reason: `No email configured for status: ${status}` });
@@ -452,17 +458,30 @@ export default async function handler(req, res) {
   let emailContent;
   switch (status) {
     case 'New Lead':
-      emailContent = newLeadEmail({ name: studentName, course });
-      break;
     case 'Contact':
       emailContent = newLeadEmail({ name: studentName, course });
       break;
+
     case 'Interested':
-      emailContent = interestedEmail({ name: studentName, course, price, qrCodeUrl, curriculumLink });
+      // Pass the dynamic bank details here
+      emailContent = interestedEmail({ 
+        name: studentName, course, price, qrCodeUrl, curriculumLink,
+        bankName: bankName || BRAND.bank.name, 
+        bankAcNo: bankAcNo || BRAND.bank.acNo, 
+        bankIfsc: bankIfsc || BRAND.bank.ifsc 
+      });
       break;
+
     case 'Payment Pending':
-      emailContent = paymentPendingEmail({ name: studentName, course, price, qrCodeUrl });
+      // Pass the dynamic bank details here
+      emailContent = paymentPendingEmail({ 
+        name: studentName, course, price, qrCodeUrl,
+        bankName: bankName || BRAND.bank.name, 
+        bankAcNo: bankAcNo || BRAND.bank.acNo, 
+        bankIfsc: bankIfsc || BRAND.bank.ifsc 
+      });
       break;
+
     case 'Enrolled':
       emailContent = enrolledEmail({
         name: studentName, course, lmsUrl,
@@ -470,6 +489,7 @@ export default async function handler(req, res) {
         tempPassword, startDate
       });
       break;
+
     case 'Not Interested':
       emailContent = notInterestedEmail({ name: studentName });
       break;
